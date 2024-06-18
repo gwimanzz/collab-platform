@@ -1,0 +1,52 @@
+{
+  "name": "my-collab-platform",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@aws-amplify/ui-react": "^6.1.12",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "aws-amplify": "^6.3.6",
+    "aws-sdk": "^2.1642.0",
+    "axios": "^1.7.2",
+    "postcss": "^8.4.38",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.23.1",
+    "react-scripts": "^5.0.1",
+    "semver": "^7.6.2",
+    "serialize-javascript": "^6.0.2",
+    "shell-quote": "^1.8.1",
+    "sockjs": "^0.3.24",
+    "terser": "^5.31.1",
+    "tough-cookie": "^4.1.4",
+    "web-vitals": "^2.1.4",
+    "webpack-dev-middleware": "^5.3.4",
+    "yargs-parser": "^21.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
