@@ -81,3 +81,75 @@ export async function signUpToLambda(username, password) {
     throw error;
   }
 }
+
+// 파일 업로드
+export async function uploadFile(file) {
+  const url = `${apiEndpoint}/files/upload`;
+
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await axios.post(url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    console.log('Response status:', response.status);
+    console.log('Response data:', response.data);
+
+    return response.data;
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    alert('File upload failed. Please try again.');
+    throw error;
+  }
+}
+
+// 파일 삭제
+export async function deleteFile(filename) {
+  const url = `${apiEndpoint}/files/delete`;
+
+  try {
+    const response = await axios.post(url, { filename }, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    console.log('Response status:', response.status);
+    console.log('Response data:', response.data);
+
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting file:', error);
+    alert('File deletion failed. Please try again.');
+    throw error;
+  }
+}
+
+// 파일 다운로드
+export async function downloadFile(filename) {
+  const url = `${apiEndpoint}/files/download`;
+
+  try {
+    const response = await axios.post(url, { filename }, {
+      responseType: 'blob',
+    });
+
+    const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    console.log('File downloaded successfully');
+  } catch (error) {
+    console.error('Error downloading file:', error);
+    alert('File download failed. Please try again.');
+    throw error;
+  }
+}
