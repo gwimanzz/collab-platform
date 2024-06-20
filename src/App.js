@@ -1,28 +1,40 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import React, { useState } from 'react';
+import './styles/App.css';
 import NavBar from './components/NavBar';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
+import VerifyPage from './pages/VerifyPage';
 import StoragePage from './pages/StoragePage';
-import PrivateRoute from './context/PrivateRoute';
-import './styles/App.css';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [email, setEmail] = useState('');
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'home':
+        return <HomePage />;
+      case 'login':
+        return <LoginPage setCurrentPage={setCurrentPage} />;
+      case 'signup':
+        return <SignUpPage setCurrentPage={setCurrentPage} setEmail={setEmail} />;
+      case 'verify':
+        return <VerifyPage email={email} setCurrentPage={setCurrentPage} />;
+      case 'storage':
+        return <StoragePage />;
+      default:
+        return <HomePage />;
+    }
+  };
+
   return (
     <AuthProvider>
-      <Router>
-        <div className="App">
-          <NavBar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/storage" element={<PrivateRoute element={StoragePage} />} />
-          </Routes>
-        </div>
-      </Router>
+      <div className="App">
+        <NavBar setCurrentPage={setCurrentPage} />
+        {renderPage()}
+      </div>
     </AuthProvider>
   );
 }

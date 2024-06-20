@@ -1,27 +1,38 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext'; // AuthProvider에서 생성한 AuthContext를 불러옵니다.
 
-function NavBar() {
-  const { isLoggedIn, logout } = useContext(AuthContext);
+const NavBar = ({ setCurrentPage }) => {
+  const { isLoggedIn, logout } = useContext(AuthContext); // AuthContext에서 필요한 상태와 함수를 가져옵니다.
 
   return (
     <nav>
-      <Link to="/">Home</Link>
-      {isLoggedIn ? (
-        <>
-          <Link to="/storage">Storage</Link>
-          <button onClick={logout}>Logout</button>
-        </>
-      ) : (
-        <>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </>
-      )}
+      <ul>
+        <li>
+          <button onClick={() => setCurrentPage('home')}>Home</button>
+        </li>
+        {isLoggedIn ? (
+          <>
+            <li>
+              <button onClick={() => setCurrentPage('storage')}>Storage</button>
+              
+            </li>
+            <li>
+              <button onClick={logout}>Logout</button>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <button onClick={() => setCurrentPage('login')}>Login</button>
+            </li>
+            <li>
+              <button onClick={() => setCurrentPage('signup')}>Sign Up</button>
+            </li>
+          </>
+        )}
+      </ul>
     </nav>
   );
-}
+};
 
 export default NavBar;
-

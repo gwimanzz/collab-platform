@@ -1,11 +1,15 @@
 import React from 'react';
 import SignUpForm from '../components/SignUpForm';
+import Verify from '../components/Verify';
 
-function SignUpPage() {
+function SignUpPage({ setCurrentPage, setEmail }) {
+  const handleSetCurrentPage = (page, data) => {
+    setCurrentPage(page, data);
+  };
+
   return (
     <div>
-      <h1>Sign Up Page</h1>
-      <SignUpForm />
+      <SignUpForm setCurrentPage={handleSetCurrentPage} setEmail={setEmail} />
     </div>
   );
 }

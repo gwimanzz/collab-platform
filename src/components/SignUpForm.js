@@ -1,37 +1,69 @@
+// SignUpForm.jsx
 import React, { useState } from 'react';
 import { signUpToLambda } from '../api/auth';
 
-function SignUpForm() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const SignUpForm = ({ setCurrentPage }) => {
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+    phone_number: '',
+    nickname: ''
+  });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+  
     try {
-      await signUpToLambda(username, password);
+      // 전화번호 앞에 +가 없으면 추가
+      const formattedPhoneNumber = form.phone_number.startsWith('+') ? form.phone_number : `+${form.phone_number}`;
+  
+      await signUpToLambda(form.email, form.password, formattedPhoneNumber, form.nickname);
+
+      // 이메일을 로컬 스토리지에 저장
+      localStorage.setItem('signedUpEmail', form.email);
+      
+      setCurrentPage('verify'); // Verify 페이지로 이동
       alert('회원 가입 성공');
     } catch (error) {
+      console.error('회원 가입 실패:', error.message);
       alert('회원 가입 실패');
     }
   };
+  
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <div className="SignUpPage">
+      <h1>Sign Up Page</h1>
+      <form onSubmit={handleSignUp}>
         <label>
-          사용자 이름:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+          Email:
+          <input type="email" name="email" value={form.email} onChange={handleChange} required />
         </label>
-      </div>
-      <div>
+        <br />
         <label>
-          비밀번호:
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          Password:
+          <input type="password" name="password" value={form.password} onChange={handleChange} required />
         </label>
-      </div>
-      <button type="submit">회원 가입</button>
-    </form>
+        <br />
+        <label>
+          Phone Number:
+          <input type="tel" name="phone_number" value={form.phone_number} onChange={handleChange} required />
+        </label>
+        <br />
+        <label>
+          Nickname:
+          <input type="text" name="nickname" value={form.nickname} onChange={handleChange} required />
+        </label>
+        <br />
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
   );
-}
+};
 
 export default SignUpForm;
