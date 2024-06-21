@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     const idToken = localStorage.getItem('IdToken');
     const accessToken = localStorage.getItem('AccessToken');
     const refreshToken = localStorage.getItem('RefreshToken');
-    console.log(idToken)
+    
     if (idToken && accessToken && refreshToken) {
       setIsLoggedIn(true);
     }
@@ -24,6 +24,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('IdToken');
     localStorage.removeItem('AccessToken');
     localStorage.removeItem('RefreshToken');
+    window.location.reload(); // 페이지 새로고침
   };
 
   return (

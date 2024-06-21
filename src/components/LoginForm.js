@@ -1,3 +1,4 @@
+// LoginForm.js
 import React, { useState, useContext } from 'react';
 import { loginToLambda } from '../api/auth';
 import { AuthContext } from '../context/AuthContext';
@@ -12,8 +13,9 @@ function LoginForm() {
     try {
       await loginToLambda(username, password);
       alert('로그인 성공');
-      login(); // 로그인 상태 업데이트
+      login(); // AuthContext에서 제공하는 login 함수 호출
       // 필요한 경우 추가적인 처리 (예: 페이지 이동)
+      window.location.reload(); // 페이지 새로고침
     } catch (error) {
       alert('로그인 실패');
     }
